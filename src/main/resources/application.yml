@@ -1,0 +1,22 @@
+
+ftp:
+  activate-route: true
+  addr-target: #host
+  user-name: #user
+  password: #password
+  options-default: disconnect=true&stepwise=false&useUserKnownHostsFile=false&jschLoggingLevel=ERROR
+  srva:
+    # ENDERECO DE DISTINO
+    path-read-out:
+    # ENDERECO DE ORIGEM
+    path-read-in: #path read for camel
+    options-read-out: ${ftp.srva.path-read-out}?recursive=true&move=true
+    options-read-in: ${ftp.srva.path-read-in}?delete=true&autoCreate=false&readLock=markerFile&initialDelay=1000&delay=1000&${ftp.options-default}
+    url-read-out: sftp://${ftp.user-name}:${ftp.password}@${ftp.addr-target}/${ftp.srva.path-read-out}
+    url-read-in: sftp://${ftp.user-name}:${ftp.password}@${ftp.addr-target}/${ftp.srva.options-read-in}
+
+camel:
+  springboot:
+    main-run-controller: true
+server:
+  port: 8081
